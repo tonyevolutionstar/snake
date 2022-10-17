@@ -20,5 +20,8 @@ class ScoreBoard(Observer):
         self.score += 1
         self.on_notify(self.entity, "score")
 
-    def on_notify(self, entity, event):
-       self.on_notify(entity, event)
+    def status(self, st):
+        self.on_notify(self.entity, st)
+
+    def finish(self):
+        self.on_notify(self.entity, "finished with " + str(self.score))

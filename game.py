@@ -10,8 +10,8 @@ SCALE = 10
 display = pygame.display.set_mode((SCALE * WIDTH, SCALE * HEIGHT))
 clock = pygame.time.Clock()
 
-snake = Snake(WIDTH, HEIGHT)
-snake2 = Snake(WIDTH, HEIGHT)
+snake = Snake("player_red", WIDTH, HEIGHT)
+snake2 = Snake("player_purple",WIDTH, HEIGHT)
 snake_direction = (1, 0)
 snake_direction2 = (1, 0)
 food_c = Food(display,SCALE, WIDTH, HEIGHT)

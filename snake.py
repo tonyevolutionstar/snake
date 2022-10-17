@@ -1,13 +1,13 @@
 import random
 from pygame import *
 from pygame.sprite import *
-
+from observer import *
 
 class Snake(pygame.sprite.Sprite):
-    def __init__(self, WIDTH, HEIGHT):
+    def __init__(self, entity, WIDTH, HEIGHT):
         pygame.sprite.Sprite.__init__(self)
+        self.obs = ScoreBoard(entity)
         self.body = []
-        #self.body = [(40, 20), (39, 20), (38, 20)]
         self.w = WIDTH
         self.h = HEIGHT
         for i in range(3):
@@ -21,7 +21,6 @@ class Snake(pygame.sprite.Sprite):
 
     def snake_dir(self, vector):
         x, y = vector
-     
         self.body[0:0] = [(self.body[0][0] + x, self.body[0][1] + y)]
         while len(self.body) > self.length:
             self.body.pop()
@@ -33,6 +32,8 @@ class Snake(pygame.sprite.Sprite):
             if food == (x, y):
                 self.length += 1
                 ev = pygame.event.Event(GAME_EVENT, {'txt': "mmmnhami"})
+               
+                self.obs.add_score()
                 pygame.event.post(ev)
                 print("Sent")
                 ev = pygame.event.Event(GAME_EVENT, {'txt': "dammmm"})
@@ -40,10 +41,12 @@ class Snake(pygame.sprite.Sprite):
                 food = (random.randrange(self.w), random.randrange(self.h))
 
             if x not in range(self.w) or y not in range(self.h):
-                print("Snake crashed against the wall")
+                self.obs.status("Snake crashed against the wall")
+                self.obs.finish()
                 running = False
 
             if self.body.count((x, y)) > 1:
-                print("Snake eats self")
+                self.obs.status("Snake eats self")
+                self.obs.finish()
                 running = False
         return running, food 
