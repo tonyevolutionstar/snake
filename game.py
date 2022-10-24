@@ -5,14 +5,23 @@ from snake import Snake
 from command import Command, InputHandler
 from spawner import Spawner
 
+from pygame import mixer
+
 WIDTH, HEIGHT = 80, 40
 SCALE = 10
 
 display = pygame.display.set_mode((SCALE * WIDTH, SCALE * HEIGHT))
 clock = pygame.time.Clock()
+#pygame.init()
+# Starting the mixer
+mixer.init()
+tunnel = pygame.mixer.music.load("Tunnel_of_Light.mp3")   
+mixer.music.set_volume(0.2)
+# Loading the song
+
 
 def main():
-
+    tunnel.play()
     snake = Snake("player_red", WIDTH, HEIGHT)
     #snake2 = Snake("player_purple",WIDTH, HEIGHT)
     snake_direction = (1, 0)
