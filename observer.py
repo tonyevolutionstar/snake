@@ -18,10 +18,10 @@ class ScoreBoard(Observer):
         
     def add_score(self):
         self.score += 1
-        self.on_notify(self.entity, "score")
+        self.on_notify(self.entity, "eat food")
 
     def status(self, st):
         self.on_notify(self.entity, st)
 
     def finish(self):
-        self.on_notify(self.entity, "finished with " + str(self.score))
+        self.on_notify(self.entity, "finished with " + str(self.score) + " score")
