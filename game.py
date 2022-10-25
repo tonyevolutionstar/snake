@@ -1,3 +1,4 @@
+import os
 import pygame
 import random
 from food import Food
@@ -6,6 +7,7 @@ from command import Command, InputHandler
 from spawner import Spawner
 
 from pygame import mixer
+print("File location using os.getcwd():", os.getcwd())
 
 WIDTH, HEIGHT = 80, 40
 SCALE = 10
@@ -19,9 +21,8 @@ tunnel = pygame.mixer.music.load("Tunnel_of_Light.mp3")
 mixer.music.set_volume(0.2)
 # Loading the song
 
-
 def main():
-    tunnel.play()
+    pygame.mixer.music.play(loops=-1)
     snake = Snake("player_red", WIDTH, HEIGHT)
     #snake2 = Snake("player_purple",WIDTH, HEIGHT)
     snake_direction = (1, 0)
