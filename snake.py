@@ -25,19 +25,21 @@ class Snake(pygame.sprite.Sprite):
         while len(self.body) > self.length:
             self.body.pop()
     
-    def fill_snake(self, running, food, GAME_EVENT, display, SCALE, color):
+    def fill_snake(self, running, food, GAME_EVENT, display, SCALE, color, eating_sound):
         for x, y in self.body:
             pygame.draw.rect(display, color, (SCALE * x, SCALE * y, SCALE, SCALE))
 
             if food == (x, y):
                 self.length += 1
-                ev = pygame.event.Event(GAME_EVENT, {'txt': "mmmnhami"})
-               
+                #ev = pygame.event.Event(GAME_EVENT, {'txt': "mmmnhami"})
+        
+                eating_sound.play()
+                eating_sound.set_volume(0.4)
                 self.obs.add_score()
-                pygame.event.post(ev)
+                #pygame.event.post(ev)
                 print("Sent")
-                ev = pygame.event.Event(GAME_EVENT, {'txt': "dammmm"})
-                pygame.event.post(ev)
+                #ev = pygame.event.Event(GAME_EVENT, {'txt': "dammmm"})
+                #pygame.event.post(ev)
                 food = (random.randrange(self.w), random.randrange(self.h))
 
             if x not in range(self.w) or y not in range(self.h):
@@ -48,5 +50,6 @@ class Snake(pygame.sprite.Sprite):
             if self.body.count((x, y)) > 1:
                 self.obs.status("Snake eats self")
                 self.obs.finish()
+               
                 running = False
         return running, food 

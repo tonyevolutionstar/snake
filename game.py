@@ -17,12 +17,15 @@ clock = pygame.time.Clock()
 #pygame.init()
 # Starting the mixer
 mixer.init()
-tunnel = pygame.mixer.music.load("Tunnel_of_Light.mp3")   
-mixer.music.set_volume(0.2)
-# Loading the song
+tunnel = pygame.mixer.Sound("Tunnel_of_Light.mp3")  
+eating_sound = pygame.mixer.Sound("eating_sound.wav")  
+#food_sound =  
+
 
 def main():
-    pygame.mixer.music.play(loops=-1)
+    #pygame.mixer.music.play(loops=-1)
+    tunnel.play()
+    tunnel.set_volume(0.1)
     snake = Snake("player_red", WIDTH, HEIGHT)
     #snake2 = Snake("player_purple",WIDTH, HEIGHT)
     snake_direction = (1, 0)
@@ -58,9 +61,9 @@ def main():
                 print(event.txt)
             
         display.fill("white")
-        
-        running, s.food = snake.fill_snake(running, s.food, GAME_EVENT, display, SCALE, "red")
-        running, s2.food = snake.fill_snake(running, s2.food, GAME_EVENT, display, SCALE, "red")
+
+        running, s.food = snake.fill_snake(running, s.food, GAME_EVENT, display, SCALE, "red", eating_sound)
+        running, s2.food = snake.fill_snake(running, s2.food, GAME_EVENT, display, SCALE, "red", eating_sound)
 
         #running, food = snake2.fill_snake(running, food, GAME_EVENT, display, SCALE, "purple")
         draw_food(s.food)
