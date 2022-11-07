@@ -4,7 +4,7 @@ from pygame.sprite import *
 from observer import *
 
 class Snake(pygame.sprite.Sprite):
-    def __init__(self, entity, WIDTH, HEIGHT):
+    def __init__(self, entity, display, WIDTH, HEIGHT, SCALE, color):
         pygame.sprite.Sprite.__init__(self)
         self.obs = ScoreBoard(entity)
         self.body = []
@@ -17,6 +17,9 @@ class Snake(pygame.sprite.Sprite):
            
         self.direction = (1, 0)
         self.length = 3
+        self.display = display
+        self.scale = SCALE
+        self.color = color 
         
 
     def snake_dir(self, vector):
@@ -25,21 +28,19 @@ class Snake(pygame.sprite.Sprite):
         while len(self.body) > self.length:
             self.body.pop()
     
-    def fill_snake(self, running, food, GAME_EVENT, display, SCALE, color, eating_sound):
+    def fill_snake(self):
         for x, y in self.body:
-            pygame.draw.rect(display, color, (SCALE * x, SCALE * y, SCALE, SCALE))
+            pygame.draw.rect(self.display, self.color, (self.scale * x, self.scale * y, self.scale, self.scale))
 
+
+    def eat(self, running, food, eating_sound):
+        for x, y in self.body:
             if food == (x, y):
                 self.length += 1
-                #ev = pygame.event.Event(GAME_EVENT, {'txt': "mmmnhami"})
-        
                 eating_sound.play()
-                eating_sound.set_volume(0.4)
+                eating_sound.set_volume(0.8)
                 self.obs.add_score()
-                #pygame.event.post(ev)
-                print("Sent")
-                #ev = pygame.event.Event(GAME_EVENT, {'txt': "dammmm"})
-                #pygame.event.post(ev)
+                self.obs.status("Eat food")
                 food = (random.randrange(self.w), random.randrange(self.h))
 
             if x not in range(self.w) or y not in range(self.h):
@@ -50,6 +51,6 @@ class Snake(pygame.sprite.Sprite):
             if self.body.count((x, y)) > 1:
                 self.obs.status("Snake eats self")
                 self.obs.finish()
-               
+                
                 running = False
         return running, food 

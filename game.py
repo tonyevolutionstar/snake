@@ -5,12 +5,12 @@ from food import Food
 from snake import Snake
 from command import Command, InputHandler
 from spawner import Spawner
-
 from pygame import mixer
-print("File location using os.getcwd():", os.getcwd())
+#print("File location using os.getcwd():", os.getcwd())
 
 WIDTH, HEIGHT = 80, 40
 SCALE = 10
+snake_color1 = "red"
 
 display = pygame.display.set_mode((SCALE * WIDTH, SCALE * HEIGHT))
 clock = pygame.time.Clock()
@@ -19,14 +19,13 @@ clock = pygame.time.Clock()
 mixer.init()
 tunnel = pygame.mixer.Sound("Tunnel_of_Light.mp3")  
 eating_sound = pygame.mixer.Sound("eating_sound.wav")  
-#food_sound =  
 
 
 def main():
     #pygame.mixer.music.play(loops=-1)
     tunnel.play()
-    tunnel.set_volume(0.1)
-    snake = Snake("player_red", WIDTH, HEIGHT)
+    tunnel.set_volume(0.5)
+    snake = Snake("player_red",display, WIDTH, HEIGHT, SCALE, snake_color1)
     #snake2 = Snake("player_purple",WIDTH, HEIGHT)
     snake_direction = (1, 0)
     #snake_direction2 = (1, 0)
@@ -55,17 +54,17 @@ def main():
                 running = False
             elif event.type == pygame.KEYDOWN:
                 i = InputHandler()
-                snake_direction = i.handleInput(event, snake_direction, "red")
+                snake_direction = i.handleInput(event, snake_direction, snake_color1)
                 #snake_direction2 = i.handleInput(event, snake_direction2, "purple")
             elif event.type == GAME_EVENT:
                 print(event.txt)
             
         display.fill("white")
 
-        running, s.food = snake.fill_snake(running, s.food, GAME_EVENT, display, SCALE, "red", eating_sound)
-        running, s2.food = snake.fill_snake(running, s2.food, GAME_EVENT, display, SCALE, "red", eating_sound)
-
-        #running, food = snake2.fill_snake(running, food, GAME_EVENT, display, SCALE, "purple")
+        snake.fill_snake()
+        running, s.food = snake.eat(running, s.food, eating_sound)
+        snake.fill_snake()
+        running, s2.food = snake.eat(running, s2.food, eating_sound)
         draw_food(s.food)
         draw_food(s2.food)
         #all_sprites.draw(display)
